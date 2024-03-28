@@ -26,6 +26,10 @@ public class CustomArrayList<T> implements CustomList<T> {
         items = (T[]) new Object[initialCapacity];
     }
 
+    public boolean isEmpty() {
+        return Arrays.stream(items).findAny().isEmpty();
+    }
+
     @Override
     public boolean add(T item) {
         if (this.getSize() >= this.capacity) {
