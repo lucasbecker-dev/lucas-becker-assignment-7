@@ -41,7 +41,7 @@ public class CustomArrayList<T> implements CustomList<T> {
     }
 
     public boolean isEmpty() {
-        return Arrays.stream(items).findAny().isEmpty();
+        return nextIndex == 0;
     }
 
     @Override
