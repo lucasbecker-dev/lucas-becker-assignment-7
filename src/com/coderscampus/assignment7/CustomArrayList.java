@@ -10,6 +10,7 @@ public class CustomArrayList<T> implements CustomList<T> {
     private int capacity;
     private int nextIndex;
     private T[] items;
+
     public CustomArrayList() {
         this.capacity = DEFAULT_INITIAL_CAPACITY;
         this.nextIndex = 0;
@@ -23,6 +24,16 @@ public class CustomArrayList<T> implements CustomList<T> {
         this.capacity = initialCapacity;
         this.nextIndex = 0;
         this.items = (T[]) new Object[initialCapacity];
+    }
+
+    @Override
+    public String toString() {
+        return "CustomArrayList{" +
+                "capacity=" + capacity +
+                ", nextIndex=" + nextIndex +
+                ", size=" + getSize() +
+                ", items=" + Arrays.toString(items) +
+                '}';
     }
 
     public int getCapacity() {
