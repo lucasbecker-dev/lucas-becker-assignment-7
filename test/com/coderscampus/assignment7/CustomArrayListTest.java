@@ -23,8 +23,6 @@ class CustomArrayListTest {
 
     @Test
     void testToString() {
-        System.out.println(listDefaultCapacity);
-        System.out.println(listCustomCapacity);
         assertEquals(
                 "CustomArrayList{capacity=10, " +
                         "nextIndex=0, " +
