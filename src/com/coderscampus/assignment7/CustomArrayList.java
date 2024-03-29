@@ -119,10 +119,14 @@ public class CustomArrayList<T> implements CustomList<T> {
 
 
     private void increaseCapacity() {
-        capacity *= CAPACITY_INCREASE_MULTIPLIER;
-        T[] newItems = (T[]) new Object[capacity];
-        System.arraycopy(items, 0, newItems, 0, getSize());
-        items = newItems;
+        if (capacity == 0) {
+            ++capacity;
+        } else {
+            capacity *= CAPACITY_INCREASE_MULTIPLIER;
+            T[] newItems = (T[]) new Object[capacity];
+            System.arraycopy(items, 0, newItems, 0, nextIndex);
+            items = newItems;
+        }
     }
 
     private boolean checkCapacityIncreaseNeeded() {
