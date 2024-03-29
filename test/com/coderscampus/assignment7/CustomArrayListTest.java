@@ -189,5 +189,9 @@ class CustomArrayListTest {
 
     @Test
     void testStream() {
+        listDefaultCapacity.add(1);
+        listCustomCapacity.add(1);
+        assertEquals(1, listDefaultCapacity.stream().count());
+        assertEquals(1, listCustomCapacity.stream().count());
     }
 }
