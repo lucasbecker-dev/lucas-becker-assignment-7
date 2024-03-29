@@ -60,7 +60,11 @@ public class CustomArrayList<T> implements CustomList<T> {
             throw new IndexOutOfBoundsException("Index: " + index + " is out of bounds.");
         }
         if (nextIndex + 1 >= capacity) {
-            capacity *= CAPACITY_INCREASE_MULTIPLIER;
+            if (capacity == 0) {
+                ++capacity;
+            } else {
+                capacity *= CAPACITY_INCREASE_MULTIPLIER;
+            }
             T[] newItems = (T[]) new Object[capacity];
             System.arraycopy(items, 0, newItems, 0, index);
             newItems[index] = item;
