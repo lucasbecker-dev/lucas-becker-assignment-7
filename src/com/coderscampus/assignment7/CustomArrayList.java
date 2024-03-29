@@ -126,10 +126,11 @@ public class CustomArrayList<T> implements CustomList<T> {
             ++capacity;
         } else {
             capacity *= CAPACITY_INCREASE_MULTIPLIER;
-            T[] newItems = (T[]) new Object[capacity];
-            System.arraycopy(items, 0, newItems, 0, nextIndex);
-            items = newItems;
         }
+        T[] newItems = (T[]) new Object[capacity];
+        System.arraycopy(items, 0, newItems, 0, nextIndex);
+        items = newItems;
+
     }
 
     private boolean checkCapacityIncreaseNeeded() {
