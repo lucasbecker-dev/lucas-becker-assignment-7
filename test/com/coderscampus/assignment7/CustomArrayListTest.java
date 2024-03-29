@@ -45,13 +45,31 @@ class CustomArrayListTest {
     }
 
     @Test
-    void testCapacityIncrease() {
-        for (int i=0; i<100; i++) {
+    void testAddCapacityIncrease() {
+        for (int i = 0; i < 100; i++) {
             listDefaultCapacity.add(i);
             listCustomCapacity.add(i);
         }
         assertEquals(160, listDefaultCapacity.getCapacity());
         assertEquals(160, listCustomCapacity.getCapacity());
+    }
+
+    @Test
+    void testAddAtIndexCapacityIncrease() {
+        for (int i = 0; i < 100; i++) {
+            listDefaultCapacity.add(i, i);
+            listCustomCapacity.add(i, i);
+        }
+        assertEquals(160, listDefaultCapacity.getCapacity());
+        assertEquals(160, listCustomCapacity.getCapacity());
+    }
+
+    @Test
+    void testCapacityIncreaseAtZero() {
+        var test = new CustomArrayList<Integer>(0);
+        test.add(1);
+        test.remove(0);
+        assertEquals(0, test.getCapacity());
     }
 
     @Test
