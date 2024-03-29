@@ -173,7 +173,18 @@ class CustomArrayListTest {
 
     @Test
     void testRemove() {
-
+        for (int i = 0; i < 10; i++) {
+            listDefaultCapacity.add(i);
+        }
+        Integer removedMid = listDefaultCapacity.remove(4);
+        assertEquals(4, removedMid);
+        assertEquals(9, listDefaultCapacity.getSize());
+        Integer removedBegin = listDefaultCapacity.remove(0);
+        assertEquals(0, removedBegin);
+        assertEquals(8, listDefaultCapacity.getSize());
+        Integer removedEnd = listDefaultCapacity.remove(listDefaultCapacity.getSize() - 1);
+        assertEquals(9, removedEnd);
+        assertEquals(7, listDefaultCapacity.getSize());
     }
 
     @Test
