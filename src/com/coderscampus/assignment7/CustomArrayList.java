@@ -18,8 +18,8 @@ public class CustomArrayList<T> implements CustomList<T> {
     }
 
     public CustomArrayList(int initialCapacity) throws IllegalArgumentException {
-        if (initialCapacity <= 0) {
-            throw new IllegalArgumentException("Capacity must be a positive integer. Value passed: " + initialCapacity);
+        if (initialCapacity < 0) {
+            throw new IllegalArgumentException("Capacity must be >= 0. Value passed: " + initialCapacity);
         }
         this.capacity = initialCapacity;
         this.nextIndex = 0;
