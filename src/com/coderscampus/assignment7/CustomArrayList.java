@@ -50,28 +50,27 @@ public class CustomArrayList<T> implements CustomList<T> {
             increaseCapacity();
         }
         items[nextIndex] = item;
-        nextIndex++;
+        ++nextIndex;
         return true;
     }
 
     @Override
     public boolean add(int index, T item) {
         if (index < 0 || index > nextIndex) {
-            System.err.println("Index: " + index + " is out of bounds.");
-            return false;
+            throw new IndexOutOfBoundsException("Index: " + index + " is out of bounds.");
         }
-        if (getSize() + 1 >= capacity) {
+        if (nextIndex + 1 >= capacity) {
             capacity *= CAPACITY_INCREASE_MULTIPLIER;
             T[] newItems = (T[]) new Object[capacity];
             System.arraycopy(items, 0, newItems, 0, index);
             newItems[index] = item;
-            nextIndex++;
-            System.arraycopy(items, index, newItems, index + 1, getSize() - index - 1);
+            ++nextIndex;
+            System.arraycopy(items, index, newItems, index + 1, nextIndex - index - 1);
             items = newItems;
         } else {
             System.arraycopy(items, index, items, index + 1, nextIndex - index);
             items[index] = item;
-            nextIndex++;
+            ++nextIndex;
         }
         return true;
     }
@@ -95,7 +94,6 @@ public class CustomArrayList<T> implements CustomList<T> {
         throw new UnsupportedOperationException("Unimplemented method 'remove'");
     }
 
-    // experimenting - made it streamable for learning purposes
     @Override
     public Stream<T> stream() {
         return Arrays.stream(items, 0, nextIndex);
@@ -110,6 +108,6 @@ public class CustomArrayList<T> implements CustomList<T> {
     }
 
     private boolean checkCapacityIncreaseNeeded() {
-        return (getSize() >= capacity);
+        return (nextIndex >= capacity);
     }
 }
