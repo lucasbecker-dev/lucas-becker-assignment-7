@@ -146,6 +146,22 @@ class CustomArrayListTest {
     }
 
     @Test
+    void testRemoveInvalidIndexThrowsException() {
+        assertThrows(IndexOutOfBoundsException.class, () -> listDefaultCapacity.remove(-1));
+        assertThrows(IndexOutOfBoundsException.class, () -> listDefaultCapacity.remove(1));
+        assertThrows(IndexOutOfBoundsException.class, () -> listCustomCapacity.remove(-1));
+        assertThrows(IndexOutOfBoundsException.class, () -> listCustomCapacity.remove(1));
+    }
+
+    @Test
+    void testGetInvalidIndexThrowsException() {
+        assertThrows(IndexOutOfBoundsException.class, () -> listDefaultCapacity.get(-1));
+        assertThrows(IndexOutOfBoundsException.class, () -> listDefaultCapacity.get(1));
+        assertThrows(IndexOutOfBoundsException.class, () -> listCustomCapacity.get(-1));
+        assertThrows(IndexOutOfBoundsException.class, () -> listCustomCapacity.get(1));
+    }
+
+    @Test
     void testGetSize() {
         assertEquals(0, listDefaultCapacity.getSize());
         assertEquals(0, listCustomCapacity.getSize());
