@@ -74,11 +74,11 @@ class CustomArrayListTest {
 
     @Test
     void testCapacityDecrease() {
-        for (int i=0; i<100; i++) {
+        for (int i = 0; i < 100; i++) {
             listDefaultCapacity.add(i);
             listCustomCapacity.add(i);
         }
-        for (int i=99; i>=0; i--) {
+        for (int i = 99; i >= 0; i--) {
             listDefaultCapacity.remove(i);
             listCustomCapacity.remove(i);
         }
@@ -99,7 +99,7 @@ class CustomArrayListTest {
     }
 
     @Test
-    void testAddAndGet() {
+    void testAdd() {
         listDefaultCapacity.add(1);
         listCustomCapacity.add(2);
         assertEquals(1, listDefaultCapacity.get(0));
@@ -107,7 +107,7 @@ class CustomArrayListTest {
     }
 
     @Test
-    void testAddSpecificIndex() {
+    void testAddAtIndex() {
         listDefaultCapacity.add(0, 1);
         listCustomCapacity.add(0, 1);
         assertEquals(1, listDefaultCapacity.get(0));
@@ -120,7 +120,7 @@ class CustomArrayListTest {
     }
 
     @Test
-    void testAddInvalidIndex() {
+    void testAddInvalidIndexThrowsException() {
         assertThrows(IndexOutOfBoundsException.class, () -> listDefaultCapacity.add(-1, 1));
         assertThrows(IndexOutOfBoundsException.class, () -> listDefaultCapacity.add(1, 2));
         assertThrows(IndexOutOfBoundsException.class, () -> listCustomCapacity.add(-1, 3));
