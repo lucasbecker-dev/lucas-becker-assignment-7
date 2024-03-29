@@ -17,6 +17,11 @@ class CustomArrayListTest {
     }
 
     @Test
+    void testConstructorThrowsException() {
+        assertThrows(IllegalArgumentException.class, () -> new CustomArrayList<Integer>(-1));
+    }
+
+    @Test
     void testToString() {
         System.out.println(listDefaultCapacity);
         System.out.println(listCustomCapacity);
