@@ -1,6 +1,7 @@
 package com.coderscampus.assignment7;
 
 import java.util.Arrays;
+import java.util.Objects;
 import java.util.stream.Stream;
 
 @SuppressWarnings("unchecked")
@@ -90,8 +91,25 @@ public class CustomArrayList<T> implements CustomList<T> {
 
     @Override
     public T remove(int index) throws IndexOutOfBoundsException {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'remove'");
+        if (index < 0 || index >= nextIndex) {
+            throw new IndexOutOfBoundsException("Index: " + index + " is out of bounds.");
+        }
+        int newCapacity;
+        if (nextIndex - 1 == 0) {
+            newCapacity = 0;
+        } else if (nextIndex - 1 < capacity / CAPACITY_INCREASE_MULTIPLIER) {
+            newCapacity = capacity / CAPACITY_INCREASE_MULTIPLIER;
+        } else {
+            newCapacity = capacity;
+        }
+        T toReturn = items[index];
+        T[] newItems = (T[]) new Object[newCapacity];
+        System.arraycopy(items, 0, newItems, 0, index);
+        --nextIndex;
+        System.arraycopy(items, index + 1, newItems, index, nextIndex - index);
+        items = newItems;
+        capacity = newCapacity;
+        return toReturn;
     }
 
     @Override
