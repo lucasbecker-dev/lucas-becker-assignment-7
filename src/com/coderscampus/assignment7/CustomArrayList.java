@@ -1,6 +1,7 @@
 package com.coderscampus.assignment7;
 
 import java.util.Arrays;
+import java.util.Objects;
 import java.util.stream.Stream;
 
 @SuppressWarnings("unchecked")
@@ -8,12 +9,12 @@ public class CustomArrayList<T> implements CustomList<T> {
     private static final int CAPACITY_INCREASE_MULTIPLIER = 2;
     private static final int DEFAULT_INITIAL_CAPACITY = 10;
     private int capacity;
-    private int nextIndex;
+    private int size;
     private T[] items;
 
     public CustomArrayList() {
         this.capacity = DEFAULT_INITIAL_CAPACITY;
-        this.nextIndex = 0;
+        this.size = 0;
         this.items = (T[]) new Object[DEFAULT_INITIAL_CAPACITY];
     }
 
@@ -22,7 +23,7 @@ public class CustomArrayList<T> implements CustomList<T> {
             throw new IllegalArgumentException("Capacity must be >= 0. Value passed: " + initialCapacity);
         }
         this.capacity = initialCapacity;
-        this.nextIndex = 0;
+        this.size = 0;
         this.items = (T[]) new Object[initialCapacity];
     }
 
@@ -30,7 +31,7 @@ public class CustomArrayList<T> implements CustomList<T> {
     public String toString() {
         return "CustomArrayList{" +
                 "capacity=" + capacity +
-                ", nextIndex=" + nextIndex +
+                ", nextIndex=" + size +
                 ", size=" + getSize() +
                 ", items=" + Arrays.toString(items) +
                 '}';
@@ -41,52 +42,40 @@ public class CustomArrayList<T> implements CustomList<T> {
     }
 
     public boolean isEmpty() {
-        return nextIndex == 0;
+        return size == 0;
     }
 
     @Override
     public boolean add(T item) {
-        if (checkCapacityIncreaseNeeded()) {
-            increaseCapacity();
-        }
-        items[nextIndex] = item;
-        ++nextIndex;
-        return true;
+        return add(size, item);
     }
 
     @Override
     public boolean add(int index, T item) {
-        if (index < 0 || index > nextIndex) {
+        if (index < 0 || index > size) {
             throw new IndexOutOfBoundsException("Index: " + index + " is out of bounds.");
         }
-        if (nextIndex + 1 >= capacity) {
-            if (capacity == 0) {
-                ++capacity;
-            } else {
-                capacity *= CAPACITY_INCREASE_MULTIPLIER;
-            }
-            T[] newItems = (T[]) new Object[capacity];
-            System.arraycopy(items, 0, newItems, 0, index);
-            newItems[index] = item;
-            ++nextIndex;
-            System.arraycopy(items, index, newItems, index + 1, nextIndex - index - 1);
-            items = newItems;
-        } else {
-            System.arraycopy(items, index, items, index + 1, nextIndex - index);
-            items[index] = item;
-            ++nextIndex;
+
+        increaseCapacityIfNeeded();
+
+        for (int i = size; i > index; i--) {
+            items[i] = items[i - 1];
         }
+
+        items[index] = item;
+        size++;
+
         return true;
     }
 
     @Override
     public int getSize() {
-        return nextIndex;
+        return size;
     }
 
     @Override
     public T get(int index) throws IndexOutOfBoundsException {
-        if (index < 0 || index >= nextIndex) {
+        if (index < 0 || index >= size) {
             throw new IndexOutOfBoundsException("Index: " + index + " is out of bounds.");
         }
         return items[index];
@@ -94,46 +83,54 @@ public class CustomArrayList<T> implements CustomList<T> {
 
     @Override
     public T remove(int index) throws IndexOutOfBoundsException {
-        if (index < 0 || index >= nextIndex) {
+        if (index < 0 || index >= size) {
             throw new IndexOutOfBoundsException("Index: " + index + " is out of bounds.");
         }
+
+        T toReturn = items[index];
+
+        for (int i = index; i < size - 1; i++) {
+            items[i] = items[i + 1];
+        }
+
+        items[size - 1] = null;
+        size--;
+
+        resizeItemsArray();
+
+        return toReturn;
+    }
+
+    private void resizeItemsArray() {
         int newCapacity;
-        if (nextIndex - 1 == 0) {
+        if (size - 1 == 0) {
             newCapacity = 0;
-        } else if (nextIndex - 1 < capacity / CAPACITY_INCREASE_MULTIPLIER) {
+        } else if (size - 1 < capacity / CAPACITY_INCREASE_MULTIPLIER) {
             newCapacity = capacity / CAPACITY_INCREASE_MULTIPLIER;
         } else {
             newCapacity = capacity;
         }
-        T toReturn = items[index];
-        T[] newItems = (T[]) new Object[newCapacity];
-        System.arraycopy(items, 0, newItems, 0, index);
-        --nextIndex;
-        System.arraycopy(items, index + 1, newItems, index, nextIndex - index);
-        items = newItems;
-        capacity = newCapacity;
-        return toReturn;
+
+        if (capacity != newCapacity) {
+            items = Arrays.copyOf(items, newCapacity);
+            capacity = newCapacity;
+        }
     }
 
     @Override
     public Stream<T> stream() {
-        return Arrays.stream(items, 0, nextIndex);
+        return Arrays.stream(items, 0, size);
     }
 
 
-    private void increaseCapacity() {
-        if (capacity == 0) {
-            ++capacity;
-        } else {
-            capacity *= CAPACITY_INCREASE_MULTIPLIER;
+    private void increaseCapacityIfNeeded() {
+        if (size >= capacity) {
+            if (capacity == 0) {
+                ++capacity;
+            } else {
+                capacity *= CAPACITY_INCREASE_MULTIPLIER;
+            }
+            items = Arrays.copyOf(items, capacity);
         }
-        T[] newItems = (T[]) new Object[capacity];
-        System.arraycopy(items, 0, newItems, 0, nextIndex);
-        items = newItems;
-
-    }
-
-    private boolean checkCapacityIncreaseNeeded() {
-        return (nextIndex >= capacity);
     }
 }

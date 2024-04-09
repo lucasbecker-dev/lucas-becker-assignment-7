@@ -79,10 +79,12 @@ class CustomArrayListTest {
             listDefaultCapacity.add(i);
             listCustomCapacity.add(i);
         }
-        for (int i = 99; i >= 0; i--) {
+        System.out.println(listCustomCapacity);
+        for (int i = 99; i > 0; i--) {
             listDefaultCapacity.remove(i);
             listCustomCapacity.remove(i);
         }
+        System.out.println(listCustomCapacity);
         assertEquals(0, listDefaultCapacity.getCapacity());
         assertEquals(0, listCustomCapacity.getCapacity());
     }
