@@ -68,6 +68,7 @@ class CustomArrayListTest {
     void testCapacityIncreaseAtZero() {
         var test = new CustomArrayList<Integer>(0);
         test.add(1);
+        assertEquals(1, test.getCapacity());
         test.remove(0);
         assertEquals(0, test.getCapacity());
     }
