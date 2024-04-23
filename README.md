@@ -1,8 +1,3 @@
-## Assignment 7
+## Test-driven Development
 
-<hr>
-
-**Test-driven Development**
-
-Enhance the CustomList from Assignment #5 with additional functionality and unit testing. Create JUnit tests, ensuring 
-proper validation and handling of inputs.
+Implement a custom Java List with additional functionality and unit testing. Create JUnit tests, ensuring proper validation and handling of inputs.
